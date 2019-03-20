@@ -2,9 +2,7 @@
   <v-app class="grey lighten-4">
     <drawer-components />
     <v-content>
-      <v-container>
-        <nuxt />
-      </v-container>
+      <nuxt />
     </v-content>
     <footer-components />
   </v-app>

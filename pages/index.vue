@@ -1,145 +1,143 @@
 <template>
-  <v-layout>
-    <div class="dashboard">
-      <h1 class="subheading grey--text my-2">
-        Dashboard
-      </h1>
-      <v-container fluid>
-        <v-layout row class="mb-3">
-          <v-flex lg4 sm6 xs12 ma-1>
-            <v-card
-              class="mx-auto"
-              color="white lighten-4"
-              max-width="600"
+  <v-container fluid grid-list-md class="py-0">
+    <v-layout>
+      <v-flex xs12 sm12 md12 lg12>
+        <h1 class="subheading grey--text">
+          Dashboard
+        </h1>
+      </v-flex>
+    </v-layout>
+    <v-layout row class="mb-3">
+      <v-flex xs12 sm6 md12 lg12 ma-1>
+        <v-card
+          class="mx-auto"
+          color="white lighten-4"
+          max-width="600"
+        >
+          <v-card-title>
+            <v-icon
+              :color="checking ? 'red lighten-2' : 'indigo'"
+              @click="takePulse"
+              class="mr-5"
+              size="64"
             >
-              <v-card-title>
-                <v-icon
-                  :color="checking ? 'red lighten-2' : 'indigo'"
-                  @click="takePulse"
-                  class="mr-5"
-                  size="64"
-                >
-                  mouse
-                </v-icon>
-                <v-layout
-                  column
-                  align-start
-                >
-                  <div class="caption grey--text text-uppercase">
-                    Temperature
-                  </div>
-                  <div>
-                    <span
-                      v-text="avg || '—'"
-                      class="display-2 font-weight-black"
-                    />
-                    <strong v-if="avg">Celcius</strong>
-                  </div>
-                </v-layout>
-              </v-card-title>
-            </v-card>
-          </v-flex>
-
-          <v-flex lg4 sm6 xs12 ma-1>
-            <v-card
-              class="mx-auto"
-              color="white lighten-4"
-              max-width="600"
+              mouse
+            </v-icon>
+            <v-layout
+              column
+              align-start
             >
-              <v-card-title>
-                <v-icon
-                  :color="checking ? 'red lighten-2' : 'indigo'"
-                  @click="takePulse"
-                  class="mr-5"
-                  size="64"
-                >
-                  mouse
-                </v-icon>
-                <v-layout
-                  column
-                  align-start
-                >
-                  <div class="caption grey--text text-uppercase">
-                    Soil Moisture
-                  </div>
-                  <div>
-                    <span
-                      v-text="avg || '—'"
-                      class="display-2 font-weight-black"
-                    />
-                    <strong v-if="avg">Persen</strong>
-                  </div>
-                </v-layout>
-              </v-card-title>
-            </v-card>
-          </v-flex>
-
-          <v-flex lg4 sm6 xs12 ma-1>
-            <v-card
-              class="mx-auto"
-              color="white lighten-4"
-              max-width="600"
+              <div class="caption grey--text text-uppercase">
+                Temperature
+              </div>
+              <div>
+                <span
+                  v-text="avg || '—'"
+                  class="display-2 font-weight-black"
+                />
+                <strong v-if="avg">Celcius</strong>
+              </div>
+            </v-layout>
+          </v-card-title>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 sm6 md12 lg12 ma-1>
+        <v-card
+          class="mx-auto"
+          color="white lighten-4"
+          max-width="600"
+        >
+          <v-card-title>
+            <v-icon
+              :color="checking ? 'red lighten-2' : 'indigo'"
+              @click="takePulse"
+              class="mr-5"
+              size="64"
             >
-              <v-card-title>
-                <v-icon
-                  :color="checking ? 'red lighten-2' : 'indigo'"
-                  @click="takePulse"
-                  class="mr-5"
-                  size="64"
-                >
-                  mouse
-                </v-icon>
-                <v-layout
-                  column
-                  align-start
-                >
-                  <div class="caption grey--text text-uppercase">
-                    Air Humidity
-                  </div>
-                  <div>
-                    <span
-                      v-text="avg || '—'"
-                      class="display-2 font-weight-black"
-                    />
-                    <strong v-if="avg">Persen</strong>
-                  </div>
-                </v-layout>
-              </v-card-title>
-            </v-card>
-          </v-flex>
-        </v-layout>
-
-        <section class="container-chart ma-1">
-          <v-card class="pa-3 mb-3">
-            <h1>Water</h1>
-            <div class="columns">
-              <div class="column">
-                <water-chart />
+              mouse
+            </v-icon>
+            <v-layout
+              column
+              align-start
+            >
+              <div class="caption grey--text text-uppercase">
+                Soil Moisture
               </div>
-            </div>
-          </v-card>
-
-          <v-card class="pa-3 mb-3">
-            <h1>Temperature</h1>
-            <div class="columns mb-3">
-              <div class="column">
-                <temperature-chart />
+              <div>
+                <span
+                  v-text="avg || '—'"
+                  class="display-2 font-weight-black"
+                />
+                <strong v-if="avg">Persen</strong>
               </div>
-            </div>
-          </v-card>
-
-          <v-card class="pa-3">
-            <h1>Humidity</h1>
-            <div class="columns">
-              <div class="column">
-                <humidity-chart />
+            </v-layout>
+          </v-card-title>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 sm6 md12 lg12 ma-1>
+        <v-card
+          class="mx-auto"
+          color="white lighten-4"
+          max-width="600"
+        >
+          <v-card-title>
+            <v-icon
+              :color="checking ? 'red lighten-2' : 'indigo'"
+              @click="takePulse"
+              class="mr-5"
+              size="64"
+            >
+              mouse
+            </v-icon>
+            <v-layout
+              column
+              align-start
+            >
+              <div class="caption grey--text text-uppercase">
+                Air Humidity
               </div>
-            </div>
-          </v-card>
-        </section>
-      </v-container>
-    </div>
-  </v-layout>
+              <div>
+                <span
+                  v-text="avg || '—'"
+                  class="display-2 font-weight-black"
+                />
+                <strong v-if="avg">Persen</strong>
+              </div>
+            </v-layout>
+          </v-card-title>
+        </v-card>
+      </v-flex>
+    </v-layout>
+
+    <section class="container-chart ma-1">
+      <v-card class="pa-3 mb-3">
+        <h1>Water</h1>
+        <div class="columns">
+          <div class="column">
+            <water-chart />
+          </div>
+        </div>
+      </v-card>
+
+      <v-card class="pa-3 mb-3">
+        <h1>Temperature</h1>
+        <div class="columns mb-3">
+          <div class="column">
+            <temperature-chart />
+          </div>
+        </div>
+      </v-card>
+
+      <v-card class="pa-3">
+        <h1>Humidity</h1>
+        <div class="columns">
+          <div class="column">
+            <humidity-chart />
+          </div>
+        </div>
+      </v-card>
+    </section>
+  </v-container>
 </template>
 
 <script>
