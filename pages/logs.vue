@@ -1,9 +1,13 @@
 <template>
-  <v-layout>
+  <v-container fluid grid-list-md class="py-0">
     <div class="historys">
-      <h1 class="subheading grey--text my-2">
-        History Log
-      </h1>
+      <v-layout>
+        <v-flex xs12 sm12 md12 lg12>
+          <h1 class="subheading grey--text">
+            History Log
+          </h1>
+        </v-flex>
+      </v-layout>
       <v-container fluid>
         <v-data-table
           :headers="headers"
@@ -11,6 +15,9 @@
           class="elevation-1"
         >
           <template slot="items" slot-scope="props">
+            <td class="text-xs-center">
+              {{ props.item.id }}
+            </td>
             <td class="text-xs-center">
               {{ props.item.temp }}
             </td>
@@ -30,7 +37,7 @@
         </v-data-table>
       </v-container>
     </div>
-  </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -38,91 +45,22 @@ export default {
   data() {
     return {
       headers: [
+        { text: 'No', align: 'center', value: 'id' },
         { text: 'Temperature (Celcius)', align: 'center', value: 'temperature' },
         { text: 'Soil Moisture (%)', align: 'center', value: 'soilMoisture' },
         { text: 'Air Humidity (%)', align: 'center', value: 'airHumidity' },
         { text: 'Volume (ml)', align: 'center', value: 'volume' },
         { text: 'CreateAt', align: 'center', value: 'createAt' }
       ]
-      // historys: [
-      //   {
-      //     temperature: 29.5,
-      //     soilMoisture: 60,
-      //     airHumidity: 50,
-      //     volume: 100,
-      //     createAt: '2019-02-06 14:40:30'
-      //   },
-      //   {
-      //     temperature: 22.5,
-      //     soilMoisture: 60,
-      //     airHumidity: 50,
-      //     volume: 100,
-      //     createAt: '2019-02-06 14:40:30'
-      //   },
-      //   {
-      //     temperature: 24.5,
-      //     soilMoisture: 60,
-      //     airHumidity: 50,
-      //     volume: 100,
-      //     createAt: '2019-02-06 14:40:30'
-      //   },
-      //   {
-      //     temperature: 21.5,
-      //     soilMoisture: 60,
-      //     airHumidity: 50,
-      //     volume: 100,
-      //     createAt: '2019-02-06 14:40:30'
-      //   },
-      //   {
-      //     temperature: 29.5,
-      //     soilMoisture: 60,
-      //     airHumidity: 50,
-      //     volume: 100,
-      //     createAt: '2019-02-06 14:40:30'
-      //   },
-      //   {
-      //     temperature: 23.5,
-      //     soilMoisture: 60,
-      //     airHumidity: 50,
-      //     volume: 100,
-      //     createAt: '2019-02-06 14:40:30'
-      //   },
-      //   {
-      //     temperature: 24.5,
-      //     soilMoisture: 60,
-      //     airHumidity: 50,
-      //     volume: 100,
-      //     createAt: '2019-02-06 14:40:30'
-      //   },
-      //   {
-      //     temperature: 38.5,
-      //     soilMoisture: 60,
-      //     airHumidity: 50,
-      //     volume: 100,
-      //     createAt: '2019-02-06 14:40:30'
-      //   },
-      //   {
-      //     temperature: 18.5,
-      //     soilMoisture: 60,
-      //     airHumidity: 50,
-      //     volume: 100,
-      //     createAt: '2019-02-06 14:40:30'
-      //   },
-      //   {
-      //     temperature: 58.5,
-      //     soilMoisture: 60,
-      //     airHumidity: 50,
-      //     volume: 100,
-      //     createAt: '2019-02-06 14:40:30'
-      //   }
-      // ]
     }
   },
   computed: {
     historys() {
-      this.$store.dispatch('loadHistory')
       return this.$store.getters.getHistorys
     }
+  },
+  mounted() {
+    this.$store.dispatch('loadHistory')
   }
 }
 </script>
