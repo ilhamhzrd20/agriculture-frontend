@@ -7,9 +7,11 @@ export default {
   extends: Line,
   // eslint-disable-next-line
   props: ['data', 'options'],
-  data() {
-    return {
-
+  watch: {
+    data: function () {
+      this.$data._chart.destroy()
+      this.renderChart(this.data, this.options)
+      // this.$data._chart.update()
     }
   },
   mounted() {

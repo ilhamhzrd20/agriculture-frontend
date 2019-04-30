@@ -58,6 +58,20 @@ export default {
       }
     }
   },
+  computed: {
+    user() {
+      return this.$store.getters.getUser
+    }
+  },
+  watch: {
+    user(value) {
+      if (value !== null) {
+        this.$router.push('/')
+      } else {
+        this.$router.push('/login')
+      }
+    }
+  },
   methods: {
     login() {
       if (this.$refs.form.validate()) {

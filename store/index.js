@@ -9,6 +9,9 @@ const createStore = () => {
       loadDataCharts: []
     },
     mutations: {
+      setUser(state, payload) {
+        state.user = payload
+      },
       setHistorys(state, payload) {
         state.loadHistorys = payload
       },
@@ -44,7 +47,8 @@ const createStore = () => {
       login({ commit }, payload) {
         this.$axios.post('http://localhost:8080/users/login', payload).then((res) => {
           // eslint-disable-next-line
-          console.log(res)
+          console.log(res.data)
+          commit('setUser', res.data)
         }).catch()
       },
       loadHistory({ commit }) {
@@ -80,6 +84,9 @@ const createStore = () => {
       }
     },
     getters: {
+      getUser(state) {
+        return state.user
+      },
       getHistorys(state) {
         return state.loadHistorys
       },
@@ -94,42 +101,48 @@ const createStore = () => {
       },
       getDataChartsTemp(state) {
         const array = []
-        for (const key in state.loadDataCharts) {
-          array.push(state.loadDataCharts[key].avgTemp)
+        for (let i = 0; i < state.loadDataCharts.length; i++) {
+          for (let j = 0; j < 20; j++) {
+            array.push(state.loadDataCharts[j].avgTemp)
+          }
+          return array
         }
-        return array
-        // return state.loadDataCharts.avgTemp
       },
       getDataChartsWater(state) {
         const array = []
-        for (const key in state.loadDataCharts) {
-          array.push(state.loadDataCharts[key].avgWater)
+        for (let i = 0; i < state.loadDataCharts.length; i++) {
+          for (let j = 0; j < 20; j++) {
+            array.push(state.loadDataCharts[j].avgWater)
+          }
+          return array
         }
-        return array
-        // return state.loadDataCharts.avgTemp
       },
       getDataChartsSoil(state) {
         const array = []
-        for (const key in state.loadDataCharts) {
-          array.push(state.loadDataCharts[key].avgSoilMoisture)
+        for (let i = 0; i < state.loadDataCharts.length; i++) {
+          for (let j = 0; j < 20; j++) {
+            array.push(state.loadDataCharts[j].avgSoilMoisture)
+          }
+          return array
         }
-        return array
-        // return state.loadDataCharts.avgTemp
       },
       getDataChartsHumidity(state) {
         const array = []
-        for (const key in state.loadDataCharts) {
-          array.push(state.loadDataCharts[key].avgHumidity)
+        for (let i = 0; i < state.loadDataCharts.length; i++) {
+          for (let j = 0; j < 20; j++) {
+            array.push(state.loadDataCharts[j].avgHumidity)
+          }
+          return array
         }
-        return array
-        // return state.loadDataCharts.avgTemp
       },
       getDataChartsTime(state) {
         const array = []
-        for (const key in state.loadDataCharts) {
-          array.push(state.loadDataCharts[key]._id)
+        for (let i = 0; i < state.loadDataCharts.length; i++) {
+          for (let j = 0; j < 20; j++) {
+            array.push(state.loadDataCharts[j]._id)
+          }
+          return array
         }
-        return array
       }
     }
   })
