@@ -3,10 +3,15 @@
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-flex xs12 sm8 md4 lg4>
+          <v-layout v-if="error" row>
+            <v-flex xs12 sm12>
+              <app-alert @dismissed="onDismissed" :text="error" />
+            </v-flex>
+          </v-layout>
           <v-card class="elevation-1 pa-3">
             <v-card-text>
               <div class="layout column align-center">
-                <img src="../static/icon.png" alt="Vue Material Admin" width="120" height="120">
+                <img src="../static/logo-sa.png" alt="Smart Agriculture" width="120" height="120">
                 <h1 class="flex my-4 primary--text">
                   Smart Agriculture
                 </h1>
@@ -41,11 +46,16 @@
 </template>
 
 <script>
+import Alert from '../components/Alert'
+
 export default {
+  components: {
+    'app-alert': Alert
+  },
   layout: 'login',
+  middleware: 'noAuth',
   data() {
     return {
-      loading: false,
       email: '',
       password: '',
       rules: {
@@ -61,11 +71,19 @@ export default {
   computed: {
     user() {
       return this.$store.getters.getUser
+    },
+    error() {
+      return this.$store.getters.error
+    },
+    loading() {
+      return this.$store.getters.loading
     }
   },
   watch: {
     user(value) {
-      if (value !== null) {
+      // eslint-disable-next-line no-console
+      console.log(value)
+      if (value !== null && value !== undefined) {
         this.$router.push('/')
       } else {
         this.$router.push('/login')
@@ -77,17 +95,24 @@ export default {
       if (this.$refs.form.validate()) {
         // eslint-disable-next-line
         console.log('login accessed')
-        this.$store.dispatch('login', { email: this.email, password: this.password }).then((result) => {
-          this.loading = true
-          setTimeout(() => {
-            this.$router.push('/')
-          }, 1000)
-          // eslint-disable-next-line handle-callback-err
-        }).catch((err) => {
-          // eslint-disable-next-line
-          console.log(err)
-        })
+        this.$store.dispatch('login', { email: this.email, password: this.password })
+          .then((result) => {
+            if (this.$store.getters.getUser !== null &&
+            this.$store.getters.getUser !== undefined) {
+              this.$router.push('/')
+            } else {
+              this.$router.push('/login')
+            }
+          }).catch((err) => {
+            // eslint-disable-next-line no-console
+            console.log(err)
+          })
       }
+    },
+    onDismissed() {
+      // eslint-disable-next-line
+      console.log('dismissed alert')
+      this.$store.dispatch('clearError')
     }
   }
 

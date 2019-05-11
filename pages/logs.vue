@@ -7,6 +7,74 @@
             History Log
           </h1>
         </v-flex>
+        <v-flex xs12 sm6 md4>
+          <v-card
+            class="mx-auto px-2 py-2"
+            color="white lighten-2"
+            max-width="400"
+          >
+            <v-dialog
+              ref="dialog"
+              v-model="menu"
+              persistent
+              lazy
+              full-width
+              width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="startDate"
+                  v-on="on"
+                  label="Start Date"
+                  prepend-icon="event"
+                />
+              </template>
+              <v-date-picker v-model="startDate" scrollable>
+                <v-spacer />
+                <v-btn @click="menu = false" flat color="primary">
+                  Close
+                </v-btn>
+                <v-btn @click="endClick" flat color="primary">
+                  OK
+                </v-btn>
+              </v-date-picker>
+            </v-dialog>
+          </v-card>
+        </v-flex>
+        <v-flex xs12 sm6 md4 mx-4>
+          <v-card
+            class="mx-auto px-2 py-2"
+            color="white lighten-2"
+            max-width="400"
+          >
+            <v-dialog
+              ref="dialog"
+              v-model="menu2"
+              persistent
+              lazy
+              full-width
+              width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="endDate"
+                  v-on="on"
+                  label="End Date"
+                  prepend-icon="event"
+                />
+              </template>
+              <v-date-picker v-model="endDate" scrollable>
+                <v-spacer />
+                <v-btn @click="menu2 = false" flat color="primary">
+                  Close
+                </v-btn>
+                <v-btn @click="endClick" flat color="primary">
+                  OK
+                </v-btn>
+              </v-date-picker>
+            </v-dialog>
+          </v-card>
+        </v-flex>
       </v-layout>
       <v-container fluid>
         <v-data-table
@@ -42,8 +110,13 @@
 
 <script>
 export default {
+  middleware: 'auth',
   data() {
     return {
+      startDate: new Date().toISOString().substr(0, 10),
+      endDate: new Date().toISOString().substr(0, 10),
+      menu: false,
+      menu2: false,
       headers: [
         { text: 'No', align: 'center', value: 'id' },
         { text: 'Temperature (Celcius)', align: 'center', value: 'temperature' },
@@ -60,7 +133,12 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('loadHistory')
+    this.$store.dispatch('loadHistory', this.startDate + '.' + this.endDate)
+  },
+  methods: {
+    endClick() {
+      this.$store.dispatch('loadHistory', this.startDate + '.' + this.endDate)
+    }
   }
 }
 </script>

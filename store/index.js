@@ -1,16 +1,32 @@
 import Vuex from 'vuex'
-
+const Cookie = require('js-cookie')
+const cookieparser = require('cookieparser')
 const createStore = () => {
   return new Vuex.Store({
     state: {
       user: null,
+      loading: false,
+      error: null,
+      isLogin: false,
       loadHistorys: [],
       loadDataCurrents: [],
       loadDataCharts: []
     },
     mutations: {
+      setLoading(state, payload) {
+        state.loading = payload
+      },
+      setError(state, payload) {
+        state.error = payload
+      },
+      clearError(state) {
+        state.error = null
+      },
       setUser(state, payload) {
         state.user = payload
+      },
+      setIsLogin(state, payload) {
+        state.isLogin = payload
       },
       setHistorys(state, payload) {
         state.loadHistorys = payload
@@ -23,36 +39,45 @@ const createStore = () => {
       }
     },
     actions: {
-      nuxtServerInit({ commit, state }) {
-        this.$axios.get('http://192.168.43.36:8080/data/index/item')
-          .then((res) => {
+      nuxtServerInit({ commit, state }, { req }) {
+        let user = null
+        if (req.headers.cookie) {
+          const parsed = cookieparser.parse(req.headers.cookie)
+          try {
+            user = JSON.parse(parsed.user)
+            commit('setUser', user)
+          } catch (err) {
             // eslint-disable-next-line
-            const historyArray = []
-            for (let key in res.data) {
-              historyArray.push({ ...res.data[key++], id: key })
-            }
-            commit('setHistorys', historyArray)
-          }).catch()
-
-        this.$axios.get('http://192.168.43.36:8080/data/average/all')
-          .then((res) => {
-            // eslint-disable-next-line no-console
-            // console.log(res)
-            state.loadDataCharts = null
-            for (const key in res.data) {
-              state.loadDataCharts.push({ ...res.data[key], id: key })
-            }
-          }).catch()
+            console.log(err)
+          }
+        }
       },
       login({ commit }, payload) {
-        this.$axios.post('http://localhost:8080/users/login', payload).then((res) => {
-          // eslint-disable-next-line
-          console.log(res.data)
-          commit('setUser', res.data)
-        }).catch()
+        commit('setLoading', true)
+        commit('clearError')
+        this.$axios.post(process.env.webServiceUrl + 'users/login', payload)
+          .then((res) => {
+            commit('setLoading', false)
+
+            if (!res.data.status) {
+              commit('setError', res.data.message)
+            }
+            // eslint-disable-next-line
+            console.log(res.data.user)
+            const accessToken = res.data.user
+            const expired = 1
+            Cookie.set('user', accessToken, { expires: expired })
+            commit('setUser', accessToken)
+            commit('setIsLogin', true)
+          }).catch((error) => {
+            commit('setLoading', false)
+            commit('setError', error)
+            // eslint-disable-next-line
+            console.log(error)
+          })
       },
-      loadHistory({ commit }) {
-        this.$axios.get('http://192.168.43.36:8080/data/index/item')
+      loadHistory({ commit }, payload) {
+        this.$axios.get(process.env.webServiceUrl + 'data/index/item/' + payload)
           .then((res) => {
           // eslint-disable-next-line
           const history = []
@@ -60,19 +85,25 @@ const createStore = () => {
               history.push({ ...res.data[key++], id: key })
             }
             commit('setHistorys', history)
-          }).catch()
+          }).catch((err) => {
+            // eslint-disable-next-line
+            console.log(err)
+          })
       },
       loadDataCurrentSensor({ commit }) {
-        this.$axios.get('http://192.168.43.36:8080/data/index/item')
+        this.$axios.get(process.env.webServiceUrl + 'data/index/item')
           .then((res) => {
             const dataCurrent = res.data[0]
             commit('setDataCurrents', dataCurrent)
             // eslint-disable-next-line no-console
             // console.log(dataCurrentTemp)
-          }).catch()
+          }).catch((err) => {
+            // eslint-disable-next-line
+            console.log(err)
+          })
       },
       loadDataChart({ commit }) {
-        this.$axios.get('http://192.168.43.36:8080/data/average/all')
+        this.$axios.get(process.env.webServiceUrl + 'data/average/all')
           .then((res) => {
           // eslint-disable-next-line
           const chart = []
@@ -80,12 +111,28 @@ const createStore = () => {
               chart.push({ ...res.data[key], id: key })
             }
             commit('setDataCharts', chart)
-          }).catch()
+          }).catch((err) => {
+            // eslint-disable-next-line
+            console.log(err)
+          })
+      },
+      logoutUser({ commit }) {
+        Cookie.remove('user')
+        commit('setIsLogin', false)
+        commit('setUser', null)
+        // eslint-disable-next-line
+        console.log("logout accessed")
+      },
+      clearError({ commit }) {
+        commit('clearError')
       }
     },
     getters: {
       getUser(state) {
         return state.user
+      },
+      getIsLogin(state) {
+        return state.isLogin
       },
       getHistorys(state) {
         return state.loadHistorys
@@ -143,6 +190,12 @@ const createStore = () => {
           }
           return array
         }
+      },
+      error(state) {
+        return state.error
+      },
+      loading(state) {
+        return state.loading
       }
     }
   })

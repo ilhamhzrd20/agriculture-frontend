@@ -7,9 +7,9 @@ export default {
   props: ['data', 'options'],
   watch: {
     data: function () {
-      this.$data._chart.destroy()
+      // this.$data._chart.destroy()
       this.renderChart(this.data, this.options)
-      // this.$data._chart.update()
+      this.$data._chart.update()
     }
   },
   mounted() {

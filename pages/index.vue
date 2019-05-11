@@ -16,8 +16,6 @@
         >
           <v-card-title>
             <v-icon
-              :color="checking ? 'red lighten-2' : 'indigo'"
-              @click="takePulse"
               class="mr-5"
               size="64"
             >
@@ -49,8 +47,6 @@
         >
           <v-card-title>
             <v-icon
-              :color="checking ? 'red lighten-2' : 'indigo'"
-              @click="takePulse"
               class="mr-5"
               size="64"
             >
@@ -82,8 +78,6 @@
         >
           <v-card-title>
             <v-icon
-              :color="checking ? 'red lighten-2' : 'indigo'"
-              @click="takePulse"
               class="mr-5"
               size="64"
             >
@@ -154,9 +148,8 @@ import WaterChart from '@/components/WaterChart'
 import HumidityChart from '@/components/HumidityChart'
 import TemperatureChart from '@/components/TemperatureChart'
 
-const exhale = ms =>
-  new Promise(resolve => setTimeout(resolve, ms))
 export default {
+  middleware: 'auth',
   components: {
     'water-chart': WaterChart,
     'humidity-chart': HumidityChart,
@@ -164,20 +157,10 @@ export default {
   },
   data() {
     return {
-      checking: false,
-      heartbeats: []
+
     }
   },
-
   computed: {
-    avg() {
-      const sum = this.heartbeats.reduce((acc, cur) => acc + cur, 0)
-      const length = this.heartbeats.length
-
-      if (!sum && !length) return 0
-
-      return Math.ceil(sum / length)
-    },
     currentTemp() {
       return this.$store.getters.getDataCurrentsTemp
     },
@@ -201,7 +184,6 @@ export default {
             borderWidth: 1,
             pointBorderColor: '#249EBF',
             // Data to be represented on y-axis
-            // data: [40.734, 20.23423, 30, 50, 90, 10, 20, 40, 50, 70, 90, 100]
             data: this.$store.getters.getDataChartsTemp
           }
         ]
@@ -221,7 +203,6 @@ export default {
             borderWidth: 1,
             pointBorderColor: '#249EBF',
             // Data to be represented on y-axis
-            // data: [40.734, 20.23423, 30, 50, 90, 10, 20, 40, 50, 70, 90, 100]
             data: this.$store.getters.getDataChartsWater
           }
         ]
@@ -307,26 +288,9 @@ export default {
       }
     }
   },
-  created() {
-    this.takePulse(false)
-  },
   mounted() {
     this.$store.dispatch('loadDataCurrentSensor')
     this.$store.dispatch('loadDataChart')
-  },
-  methods: {
-    heartbeat() {
-      return Math.ceil(Math.random() * (120 - 80) + 80)
-    },
-    async takePulse(inhale = true) {
-      this.checking = true
-
-      inhale && await exhale(1000)
-
-      this.heartbeats = Array.from({ length: 20 }, this.heartbeat)
-
-      this.checking = false
-    }
   }
 }
 </script>

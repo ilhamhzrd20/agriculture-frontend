@@ -13,11 +13,11 @@
         <v-layout>
           <div class="layout ma-0 align-center column">
             <v-avatar size="96" color="primary">
-              <span class="white--text headline">Fatkhun</span>
+              <img src="../static/logo-sa.png" alt="Smart Agriculture" width="96" height="96">
             </v-avatar>
             <div class="flex text-sm-center my-3">
               <div class="subheading">
-                M Fatkhun
+                <span v-if="user" v-text="user || '—'" />
               </div>
             </div>
           </div>
@@ -46,17 +46,21 @@
     </v-navigation-drawer>
     <v-toolbar
       :clipped-left="clipped"
-      class="primary"
+      color="primary"
       fixed
       app
     >
-      <v-toolbar-side-icon @click="drawer = !drawer" class="white--text" />
-      <v-toolbar-title class="text-uppercase white--text">
+      <v-toolbar-side-icon @click="drawer = !drawer" class="secondary--text" />
+      <v-toolbar-title class="text-uppercase secondary--text">
         <span v-text="titleThin" class="font-weight-light" />
         <span v-text="titleBold" />
       </v-toolbar-title>
       <v-spacer />
-      <v-btn flat color="white" to="/login">
+      <v-btn
+        @click="onLogout"
+        flat
+        color="accent"
+      >
         <span v-text="titleSignOut" />
         <v-icon>exit_to_app</v-icon>
       </v-btn>
@@ -65,6 +69,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -87,6 +92,23 @@ export default {
       titleThin: 'Smart',
       titleBold: 'Agriculture',
       titleSignOut: 'Sign Out'
+    }
+  },
+  computed: {
+    user() {
+      if (!this.$store.state.user) {
+        return '_'
+      } else {
+        return this.$store.getters.getUser.name
+      }
+    }
+  },
+  methods: {
+    onLogout() {
+      if (this.$store.getters.getUser) {
+        this.$store.dispatch('logoutUser')
+        this.$router.push('/login')
+      }
     }
   }
 }

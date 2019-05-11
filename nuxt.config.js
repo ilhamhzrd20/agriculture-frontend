@@ -87,5 +87,8 @@ module.exports = {
         })
       }
     }
+  },
+  env: {
+    webServiceUrl: 'http://192.168.43.36:8080/'
   }
 }

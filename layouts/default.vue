@@ -13,6 +13,7 @@ import Drawer from '@/components/Drawer'
 import Footer from '@/components/Footer'
 
 export default {
+  middleware: 'auth',
   components: {
     'drawer-components': Drawer,
     'footer-components': Footer
