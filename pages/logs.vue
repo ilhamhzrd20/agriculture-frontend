@@ -9,7 +9,7 @@
         </v-flex>
         <v-flex xs12 sm6 md4>
           <v-card
-            class="mx-auto px-2 py-2"
+            class="mx-auto px-2 pt-1 rounded-card"
             color="white lighten-2"
             max-width="400"
           >
@@ -43,7 +43,7 @@
         </v-flex>
         <v-flex xs12 sm6 md4 mx-4>
           <v-card
-            class="mx-auto px-2 py-2"
+            class="mx-auto px-2 pt-1 rounded-card"
             color="white lighten-2"
             max-width="400"
           >
@@ -142,3 +142,8 @@ export default {
   }
 }
 </script>
+<style scoped lang="css">
+  .rounded-card{
+    border-radius: 50px;
+}
+</style>

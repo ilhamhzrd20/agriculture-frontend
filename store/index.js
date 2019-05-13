@@ -103,15 +103,18 @@ const createStore = () => {
           })
       },
       loadDataChart({ commit }) {
+        commit('setLoading', true)
         this.$axios.get(process.env.webServiceUrl + 'data/average/all')
           .then((res) => {
-          // eslint-disable-next-line
+            commit('setLoading', false)
+            // eslint-disable-next-line
           const chart = []
             for (const key in res.data) {
               chart.push({ ...res.data[key], id: key })
             }
             commit('setDataCharts', chart)
           }).catch((err) => {
+            commit('setLoading', false)
             // eslint-disable-next-line
             console.log(err)
           })

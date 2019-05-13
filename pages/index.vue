@@ -106,58 +106,49 @@
     <section class="container-chart ma-1">
       <v-card class="pa-3 mb-3">
         <h1>Water</h1>
-        <div class="columns">
-          <div class="column">
-            <water-chart
-              :data="dataCollectionWater"
-              :options="options"
-            />
-          </div>
-        </div>
+        <water-chart
+          :chartData="dataCollectionWater"
+          :options="optionsWater"
+        />
       </v-card>
 
       <v-card class="pa-3 mb-3">
         <h1>Temperature</h1>
-        <div class="columns mb-3">
-          <div class="column">
-            <temperature-chart
-              :data="dataCollectionTemp"
-              :options="options"
-            />
-          </div>
-        </div>
+        <temperature-chart
+          :chartData="dataCollectionTemp"
+          :options="optionsTemp"
+        />
       </v-card>
 
       <v-card class="pa-3">
         <h1>Humidity</h1>
-        <div class="columns">
-          <div class="column">
-            <humidity-chart
-              :data="dataCollectionSoilHumidity"
-              :options="optionsStacked"
-            />
-          </div>
-        </div>
+        <humidity-chart
+          :chartData="dataCollectionSoilHumidity"
+          :options="optionsStacked"
+        />
       </v-card>
     </section>
   </v-container>
 </template>
 
 <script>
+import io from 'socket.io-client'
 import WaterChart from '@/components/WaterChart'
 import HumidityChart from '@/components/HumidityChart'
 import TemperatureChart from '@/components/TemperatureChart'
 
 export default {
-  middleware: 'auth',
   components: {
     'water-chart': WaterChart,
     'humidity-chart': HumidityChart,
     'temperature-chart': TemperatureChart
   },
+  middleware: 'auth',
   data() {
     return {
-
+      gradient: null,
+      gradient2: null,
+      socket: io('http://192.168.43.36:8080')
     }
   },
   computed: {
@@ -170,6 +161,118 @@ export default {
     currentSoilMoisture() {
       return this.$store.getters.getDataCurrentsSoilMoisture
     },
+    optionsWater() {
+      return {
+        scales: {
+          yAxes: [{
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback: function (value, index, values) {
+                return value + ' ml'
+              },
+              beginAtZero: true
+            },
+            gridLines: {
+              display: true
+            }
+          }],
+          xAxes: [ {
+            gridLines: {
+              display: false
+            }
+          }]
+        },
+        legend: {
+          display: true
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        // Container for zoom options
+        zoom: {
+          // Boolean to enable zooming
+          enabled: true,
+
+          // Zooming directions. Remove the appropriate direction to disable
+          // Eg. 'y' would only allow zooming in the y direction
+          mode: 'x'
+        }
+      }
+    },
+    optionsTemp() {
+      return {
+        scales: {
+          yAxes: [{
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback: function (value, index, values) {
+                return value + ' °C'
+              },
+              beginAtZero: false
+            },
+            gridLines: {
+              display: true
+            }
+          }],
+          xAxes: [ {
+            gridLines: {
+              display: false
+            }
+          }]
+        },
+        legend: {
+          display: true
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        // Container for zoom options
+        zoom: {
+          // Boolean to enable zooming
+          enabled: true,
+
+          // Zooming directions. Remove the appropriate direction to disable
+          // Eg. 'y' would only allow zooming in the y direction
+          mode: 'x'
+        }
+      }
+    },
+    optionsStacked() {
+      return {
+        scales: {
+          yAxes: [{
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback: function (value, index, values) {
+                return value + ' %'
+              },
+              beginAtZero: true
+            },
+            gridLines: {
+              display: true
+            },
+            stacked: true
+          }],
+          xAxes: [ {
+            gridLines: {
+              display: false
+            }
+          }]
+        },
+        legend: {
+          display: true
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        // Container for zoom options
+        zoom: {
+          // Boolean to enable zooming
+          enabled: true,
+
+          // Zooming directions. Remove the appropriate direction to disable
+          // Eg. 'y' would only allow zooming in the y direction
+          mode: 'x'
+        }
+      }
+    },
     dataCollectionTemp() {
       // eslint-disable-next-line
       // console.log(this.$store.getters.getDataChartsTemp)
@@ -178,8 +281,8 @@ export default {
         labels: this.$store.getters.getDataChartsTime,
         datasets: [
           {
-            label: 'Temperature (Celcius)',
-            backgroundColor: '#1565C0',
+            label: 'Temperature',
+            backgroundColor: '#d1792c',
             pointBackgroundColor: 'white',
             borderWidth: 1,
             pointBorderColor: '#249EBF',
@@ -197,7 +300,7 @@ export default {
         labels: this.$store.getters.getDataChartsTime,
         datasets: [
           {
-            label: 'Water Volume (Mili liter)',
+            label: 'Water Volume',
             backgroundColor: '#1565C0',
             pointBackgroundColor: 'white',
             borderWidth: 1,
@@ -216,81 +319,33 @@ export default {
         labels: this.$store.getters.getDataChartsTime,
         datasets: [
           {
-            label: 'Soil Moisture (%)',
-            backgroundColor: '#F9A825',
+            label: 'Soil Moisture',
+            backgroundColor: '#22c1c3',
             pointBackgroundColor: 'white',
             borderWidth: 1,
             pointBorderColor: '#249EBF',
-            // Data to be represented on y-axis
-            // data: [40.734, 20.23423, 30, 50, 90, 10, 20, 40, 50, 70, 90, 100]
             data: this.$store.getters.getDataChartsSoil
           },
           {
-            label: 'Air Humidity (%)',
-            backgroundColor: '#283593',
+            label: 'Air Humidity',
+            backgroundColor: '#5ca991',
             pointBackgroundColor: 'white',
             borderWidth: 1,
             pointBorderColor: '#249EBF',
-            // Data to be represented on y-axis
-            // data: [40.734, 20.23423, 30, 50, 90, 10, 20, 40, 50, 70, 90, 100]
             data: this.$store.getters.getDataChartsHumidity
           }
         ]
-      }
-    },
-    options() {
-      return {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            },
-            gridLines: {
-              display: true
-            }
-          }],
-          xAxes: [ {
-            gridLines: {
-              display: false
-            }
-          }]
-        },
-        legend: {
-          display: true
-        },
-        responsive: true,
-        maintainAspectRatio: false
-      }
-    },
-    optionsStacked() {
-      return {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            },
-            gridLines: {
-              display: true
-            },
-            stacked: true
-          }],
-          xAxes: [ {
-            gridLines: {
-              display: false
-            }
-          }]
-        },
-        legend: {
-          display: true
-        },
-        responsive: true,
-        maintainAspectRatio: false
       }
     }
   },
   mounted() {
     this.$store.dispatch('loadDataCurrentSensor')
     this.$store.dispatch('loadDataChart')
+    setInterval(() => {
+      this.$store.dispatch('loadDataCurrentSensor')
+      this.$store.dispatch('loadDataChart')
+    }, 60000)
+    clearInterval(null)
   }
 }
 </script>
