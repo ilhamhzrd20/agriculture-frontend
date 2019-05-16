@@ -34,7 +34,7 @@
                 <v-btn @click="menu = false" flat color="primary">
                   Close
                 </v-btn>
-                <v-btn @click="endClick" flat color="primary">
+                <v-btn @click="endClick" :loading="loading" flat color="primary">
                   OK
                 </v-btn>
               </v-date-picker>
@@ -68,7 +68,7 @@
                 <v-btn @click="menu2 = false" flat color="primary">
                   Close
                 </v-btn>
-                <v-btn @click="endClick" flat color="primary">
+                <v-btn @click="endClick" :loading="loading" flat color="primary">
                   OK
                 </v-btn>
               </v-date-picker>
@@ -80,6 +80,7 @@
         <v-data-table
           :headers="headers"
           :items="historys"
+          :loading="loading"
           class="elevation-1"
         >
           <template slot="items" slot-scope="props">
@@ -130,6 +131,9 @@ export default {
   computed: {
     historys() {
       return this.$store.getters.getHistorys
+    },
+    loading() {
+      return this.$store.getters.loading
     }
   },
   mounted() {

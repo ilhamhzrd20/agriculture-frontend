@@ -25,11 +25,13 @@
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
     "vue-chartjs": "^3.4.0",
+    "vue-echarts": "^4.0.2",
     "vue-echarts-v3": "^2.0.1",
     "vuetify": "^1.5.5",
     "vuetify-loader": "^1.2.1"
   },
   "devDependencies": {
+    "@mdi/font": "^3.6.95",
     "@nuxtjs/eslint-config": "^0.0.1",
     "babel-eslint": "^8.2.6",
     "eslint": "^5.15.1",

@@ -77,15 +77,18 @@ const createStore = () => {
           })
       },
       loadHistory({ commit }, payload) {
+        commit('setLoading', true)
         this.$axios.get(process.env.webServiceUrl + 'data/index/item/' + payload)
           .then((res) => {
-          // eslint-disable-next-line
+            commit('setLoading', false)
+            // eslint-disable-next-line
           const history = []
             for (let key in res.data) {
               history.push({ ...res.data[key++], id: key })
             }
             commit('setHistorys', history)
           }).catch((err) => {
+            commit('setLoading', false)
             // eslint-disable-next-line
             console.log(err)
           })
@@ -152,47 +155,37 @@ const createStore = () => {
       getDataChartsTemp(state) {
         const array = []
         for (let i = 0; i < state.loadDataCharts.length; i++) {
-          for (let j = 0; j < 20; j++) {
-            array.push(state.loadDataCharts[j].avgTemp)
-          }
-          return array
+          array.push(state.loadDataCharts[i].avgTemp)
         }
+        return array
       },
       getDataChartsWater(state) {
         const array = []
         for (let i = 0; i < state.loadDataCharts.length; i++) {
-          for (let j = 0; j < 20; j++) {
-            array.push(state.loadDataCharts[j].avgWater)
-          }
-          return array
+          array.push(state.loadDataCharts[i].avgWater)
         }
+        return array
       },
       getDataChartsSoil(state) {
         const array = []
         for (let i = 0; i < state.loadDataCharts.length; i++) {
-          for (let j = 0; j < 20; j++) {
-            array.push(state.loadDataCharts[j].avgSoilMoisture)
-          }
-          return array
+          array.push(state.loadDataCharts[i].avgSoilMoisture)
         }
+        return array
       },
       getDataChartsHumidity(state) {
         const array = []
         for (let i = 0; i < state.loadDataCharts.length; i++) {
-          for (let j = 0; j < 20; j++) {
-            array.push(state.loadDataCharts[j].avgHumidity)
-          }
-          return array
+          array.push(state.loadDataCharts[i].avgHumidity)
         }
+        return array
       },
       getDataChartsTime(state) {
         const array = []
         for (let i = 0; i < state.loadDataCharts.length; i++) {
-          for (let j = 0; j < 20; j++) {
-            array.push(state.loadDataCharts[j]._id)
-          }
-          return array
+          array.push(state.loadDataCharts[i]._id)
         }
+        return array
       },
       error(state) {
         return state.error

@@ -65,7 +65,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    transpile: ['vuetify/lib'],
+    transpile: ['vuetify/lib', 'vue-echarts', 'resize-detector'],
     plugins: [new VuetifyLoaderPlugin()],
     loaders: {
       stylus: {
