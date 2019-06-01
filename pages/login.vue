@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-content id="login" class="bg-color">
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-flex xs12 sm8 md4 lg4>
@@ -120,12 +120,19 @@ export default {
 </script>
 <style scoped lang="css">
   #login {
-    height: 50%;
+    height: 100%;
     width: 100%;
     position: absolute;
     top: 0;
     left: 0;
     content: "";
     z-index: 0;
+  }
+  .bg-color {
+    background: rgb(65,88,153);
+    background: -moz-linear-gradient(107deg, rgba(65,88,153,1) 0%, rgba(0,205,181,1) 100%);
+    background: -webkit-linear-gradient(107deg, rgba(65,88,153,1) 0%, rgba(0,205,181,1) 100%);
+    background: linear-gradient(107deg, rgba(65,88,153,1) 0%, rgba(0,205,181,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#415899",endColorstr="#00cdb5",GradientType=1);
   }
 </style>

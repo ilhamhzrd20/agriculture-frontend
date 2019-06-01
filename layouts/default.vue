@@ -1,5 +1,5 @@
 <template>
-  <v-app class="grey lighten-4">
+  <v-app class="gray_light">
     <drawer-components />
     <v-content>
       <nuxt />
@@ -20,7 +20,8 @@ export default {
   },
   data() {
     return {
-
+      temp: '',
+      temper: ''
     }
   }
 }

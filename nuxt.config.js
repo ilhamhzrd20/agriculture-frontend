@@ -89,6 +89,6 @@ module.exports = {
     }
   },
   env: {
-    webServiceUrl: 'http://192.168.43.36:8080/'
+    webServiceUrl: 'http://168.63.232.214:8080/'
   }
 }

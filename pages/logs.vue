@@ -1,16 +1,15 @@
 <template>
   <v-container fluid grid-list-md class="py-0">
     <div class="historys">
-      <v-layout>
+      <v-layout class="px-0">
         <v-flex xs12 sm12 md12 lg12>
-          <h1 class="subheading grey--text">
+          <h1 class="subheading secondary--text">
             History Log
           </h1>
         </v-flex>
         <v-flex xs12 sm6 md4>
           <v-card
-            class="mx-auto px-2 pt-1 rounded-card"
-            color="white lighten-2"
+            class="mx-auto px-1 pt-1"
             max-width="400"
           >
             <v-dialog
@@ -41,10 +40,9 @@
             </v-dialog>
           </v-card>
         </v-flex>
-        <v-flex xs12 sm6 md4 mx-4>
+        <v-flex xs12 sm6 md4 mr-4>
           <v-card
-            class="mx-auto px-2 pt-1 rounded-card"
-            color="white lighten-2"
+            class="mx-auto px-1 pt-1"
             max-width="400"
           >
             <v-dialog
@@ -147,7 +145,7 @@ export default {
 }
 </script>
 <style scoped lang="css">
-  .rounded-card{
+.rounded-card{
     border-radius: 50px;
 }
 </style>

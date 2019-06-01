@@ -4,7 +4,7 @@
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
-      class="grey lighten-5"
+      class="bg-color"
       fixed
       app
     >
@@ -12,11 +12,11 @@
       <div class="name-card pa-4">
         <v-layout>
           <div class="layout ma-0 align-center column">
-            <v-avatar size="96" color="primary">
+            <v-avatar size="96" color="secondary">
               <img src="../static/logo-sa.png" alt="Smart Agriculture" width="96" height="96">
             </v-avatar>
             <div class="flex text-sm-center my-3">
-              <div class="subheading">
+              <div class="subheading white--text">
                 <span v-if="user" v-text="user || '—'" />
               </div>
             </div>
@@ -36,10 +36,12 @@
           exact
         >
           <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon color="white">
+              {{ item.icon }}
+            </v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title v-text="item.title" />
+            <v-list-tile-title v-text="item.title" class="white--text" />
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -50,7 +52,7 @@
       fixed
       app
     >
-      <v-toolbar-side-icon @click="drawer = !drawer" class="secondary--text" />
+      <v-toolbar-side-icon @click="drawer = !drawer" class="white--text" />
       <v-toolbar-title class="text-uppercase secondary--text">
         <span v-text="titleThin" class="font-weight-light" />
         <span v-text="titleBold" />
@@ -113,3 +115,12 @@ export default {
   }
 }
 </script>
+<style scoped lang="css">
+.bg-color {
+  background: rgb(76,98,158);
+  background: -moz-linear-gradient(107deg, rgba(76,98,158,1) 0%, rgba(76,98,158,1) 100%);
+  background: -webkit-linear-gradient(107deg, rgba(76,98,158,1) 0%, rgba(76,98,158,1) 100%);
+  background: linear-gradient(107deg, rgba(76,98,158,1) 0%, rgba(76,98,158,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#4c629e",endColorstr="#4c629e",GradientType=1);
+}
+</style>

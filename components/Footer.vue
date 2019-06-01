@@ -2,9 +2,10 @@
   <v-container>
     <v-footer
       :fixed="fixed"
+      class="bg-color"
       app
     >
-      <span>&copy; 2019</span>
+      <span class="white--text">&copy; 2019 Smart Agriculture</span>
     </v-footer>
   </v-container>
 </template>
@@ -18,3 +19,12 @@ export default {
   }
 }
 </script>
+<style scoped lang="css">
+.bg-color {
+  background: rgb(65,88,153);
+  background: -moz-linear-gradient(107deg, rgba(65,88,153,1) 0%, rgba(0,205,181,1) 100%);
+  background: -webkit-linear-gradient(107deg, rgba(65,88,153,1) 0%, rgba(0,205,181,1) 100%);
+  background: linear-gradient(107deg, rgba(65,88,153,1) 0%, rgba(0,205,181,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#415899",endColorstr="#00cdb5",GradientType=1);
+}
+</style>

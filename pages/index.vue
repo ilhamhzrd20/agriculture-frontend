@@ -1,8 +1,8 @@
 <template>
-  <v-container fluid grid-list-md class="py-0">
+  <v-container fluid grid-list-md class="py-0 gray_light">
     <v-layout>
       <v-flex xs12 sm12 md12 lg12>
-        <h1 class="subheading grey--text">
+        <h1 class="subheading secondary--text">
           Dashboard
         </h1>
       </v-flex>
@@ -10,15 +10,14 @@
     <v-layout row class="mb-3">
       <v-flex xs12 sm6 md12 lg12 ma-1>
         <v-card
-          class="mx-auto"
-          color="white lighten-4"
+          class="mx-auto primary"
           max-width="600"
         >
           <v-card-title>
             <v-icon
               class="mr-5"
               size="64"
-              color="orange darken-2"
+              color="secondary"
             >
               mdi-oil-temperature
             </v-icon>
@@ -26,15 +25,12 @@
               column
               align-start
             >
-              <div class="caption grey--text text-uppercase">
+              <div class="caption secondary--text text-uppercase font-weight-black">
                 Temperature
               </div>
               <div>
-                <span
-                  v-text="currentTemp || '—'"
-                  class="display-2 font-weight-black"
-                />
-                <strong v-if="currentTemp">Celcius</strong>
+                <span class="display-2 font-weight-black white--text">{{ temperature }}</span>
+                <strong class="white--text">Celcius</strong>
               </div>
             </v-layout>
           </v-card-title>
@@ -42,15 +38,14 @@
       </v-flex>
       <v-flex xs12 sm6 md12 lg12 ma-1>
         <v-card
-          class="mx-auto"
-          color="white lighten-4"
+          class="mx-auto primary"
           max-width="600"
         >
           <v-card-title>
             <v-icon
               class="mr-5"
               size="64"
-              color="green darken-2"
+              color="secondary"
             >
               mdi-sprout
             </v-icon>
@@ -58,15 +53,12 @@
               column
               align-start
             >
-              <div class="caption grey--text text-uppercase">
+              <div class="caption secondary--text text-uppercase font-weight-black">
                 Soil Moisture
               </div>
               <div>
-                <span
-                  v-text="currentSoilMoisture || '—'"
-                  class="display-2 font-weight-black"
-                />
-                <strong v-if="currentSoilMoisture">Percent</strong>
+                <span class="display-2 font-weight-black white--text">{{ soil }}</span>
+                <strong class="white--text">Percent</strong>
               </div>
             </v-layout>
           </v-card-title>
@@ -74,15 +66,14 @@
       </v-flex>
       <v-flex xs12 sm6 md12 lg12 ma-1>
         <v-card
-          class="mx-auto"
-          color="white lighten-4"
+          class="mx-auto primary"
           max-width="600"
         >
           <v-card-title>
             <v-icon
               class="mr-5"
               size="64"
-              color="cyan darken-1"
+              color="secondary"
             >
               mdi-water-percent
             </v-icon>
@@ -90,15 +81,12 @@
               column
               align-start
             >
-              <div class="caption grey--text text-uppercase">
+              <div class="caption secondary--text text-uppercase font-weight-black">
                 Air Humidity
               </div>
               <div>
-                <span
-                  v-text="currentHumidity || '—'"
-                  class="display-2 font-weight-black"
-                />
-                <strong v-if="currentHumidity">Percent</strong>
+                <span class="display-2 font-weight-black white--text">{{ humidity }}</span>
+                <strong class="white--text">Percent</strong>
               </div>
             </v-layout>
           </v-card-title>
@@ -107,8 +95,10 @@
     </v-layout>
 
     <section class="container-chart ma-1">
-      <v-card class="pa-3 mb-3">
-        <h1>Water</h1>
+      <v-card class="blue-grey lighten-5 pa-3 mb-3">
+        <h1 class="secondary--text">
+          Water
+        </h1>
         <v-layout class="chart-wrapper">
           <water-chart
             :options="chartOptionsLineWater"
@@ -117,8 +107,10 @@
         </v-layout>
       </v-card>
 
-      <v-card class="pa-3 mb-3">
-        <h1>Temperature</h1>
+      <v-card class="blue-grey lighten-5 pa-3 mb-3">
+        <h1 class="secondary--text">
+          Temperature
+        </h1>
         <v-layout class="chart-wrapper">
           <temperature-chart
             :options="chartOptionsLineTemp"
@@ -127,8 +119,10 @@
         </v-layout>
       </v-card>
 
-      <v-card class="pa-3 mb-3">
-        <h1>Soil Moisture</h1>
+      <v-card class="blue-grey lighten-5 pa-3 mb-3">
+        <h1 class="secondary--text">
+          Soil Moisture
+        </h1>
         <v-layout class="chart-wrapper">
           <soil-chart
             :options="chartOptionsLineSoil"
@@ -137,8 +131,10 @@
         </v-layout>
       </v-card>
 
-      <v-card class="pa-3">
-        <h1>Air Humidity</h1>
+      <v-card class="blue-grey lighten-5 pa-3">
+        <h1 class="secondary--text">
+          Air Humidity
+        </h1>
         <v-layout class="chart-wrapper">
           <humidity-chart
             :options="chartOptionsLineHumidity"
@@ -152,6 +148,8 @@
 
 <script>
 import io from 'socket.io-client'
+// import jsonString from 'safe-json-stringify'
+import CircularJSON from 'circular-json'
 import Echarts from 'vue-echarts'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/component/title'
@@ -173,7 +171,9 @@ export default {
   middleware: 'auth',
   data() {
     return {
-      temper: '',
+      temperature: 0,
+      humidity: 0,
+      soil: 0,
       appInterval: 0,
       socket: io('http://192.168.43.36:8080')
     }
@@ -182,7 +182,10 @@ export default {
     chartOptionsLineTemp() {
       return {
         title: {
-          text: 'Statistic'
+          text: 'Statistic',
+          textStyle: {
+            color: '#415899'
+          }
         },
         tooltip: {
           trigger: 'axis',
@@ -193,11 +196,17 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
+          axisLabel: {
+            color: '#415899'
+          },
           data: this.$store.getters.getDataChartsTime
         },
         yAxis: {
           type: 'value',
           boundaryGap: [0, '100%'],
+          axisLabel: {
+            color: '#415899'
+          },
           splitLine: {
             show: false
           }
@@ -221,8 +230,11 @@ export default {
           end: 10,
           handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
           handleSize: '80%',
+          textStyle: {
+            color: '#415899'
+          },
           handleStyle: {
-            color: '#fff',
+            color: '#415899',
             shadowBlur: 3,
             shadowColor: 'rgba(0, 0, 0, 0.6)',
             shadowOffsetX: 2,
@@ -232,6 +244,9 @@ export default {
         visualMap: {
           top: 1,
           right: 1,
+          textStyle: {
+            color: '#415899'
+          },
           pieces: [{
             gt: 0,
             lte: 20,
@@ -279,12 +294,12 @@ export default {
             }]
           },
           areaStyle: {
-            color: new Echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+            color: new Echarts.graphic.LinearGradient(0, 0, 0, 0.8, [{
               offset: 0,
               color: 'rgb(0, 205, 181)'
             }, {
               offset: 1,
-              color: 'rgb(65, 88, 153)'
+              color: 'rgb(76,98,158)'
             }])
           }
         }
@@ -293,7 +308,10 @@ export default {
     chartOptionsLineWater() {
       return {
         title: {
-          text: 'Statistic'
+          text: 'Statistic',
+          textStyle: {
+            color: '#415899'
+          }
         },
         tooltip: {
           trigger: 'axis',
@@ -304,11 +322,17 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
+          axisLabel: {
+            color: '#415899'
+          },
           data: this.$store.getters.getDataChartsTime
         },
         yAxis: {
           type: 'value',
           boundaryGap: [0, '100%'],
+          axisLabel: {
+            color: '#415899'
+          },
           splitLine: {
             show: false
           }
@@ -332,8 +356,11 @@ export default {
           end: 10,
           handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
           handleSize: '80%',
+          textStyle: {
+            color: '#415899'
+          },
           handleStyle: {
-            color: '#fff',
+            color: '#415899',
             shadowBlur: 3,
             shadowColor: 'rgba(0, 0, 0, 0.6)',
             shadowOffsetX: 2,
@@ -343,6 +370,9 @@ export default {
         visualMap: {
           top: 1,
           right: 1,
+          textStyle: {
+            color: '#415899'
+          },
           pieces: [{
             gt: 0,
             lte: 100,
@@ -390,12 +420,12 @@ export default {
             }]
           },
           areaStyle: {
-            color: new Echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+            color: new Echarts.graphic.LinearGradient(0, 0, 0, 0.8, [{
               offset: 0,
               color: 'rgb(0, 205, 181)'
             }, {
               offset: 1,
-              color: 'rgb(65, 88, 153)'
+              color: 'rgb(76,98,158)'
             }])
           }
         }
@@ -404,7 +434,10 @@ export default {
     chartOptionsLineSoil() {
       return {
         title: {
-          text: 'Statistic'
+          text: 'Statistic',
+          textStyle: {
+            color: '#415899'
+          }
         },
         tooltip: {
           trigger: 'axis',
@@ -415,11 +448,17 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
+          axisLabel: {
+            color: '#415899'
+          },
           data: this.$store.getters.getDataChartsTime
         },
         yAxis: {
           type: 'value',
           boundaryGap: [0, '100%'],
+          axisLabel: {
+            color: '#415899'
+          },
           splitLine: {
             show: false
           }
@@ -443,8 +482,11 @@ export default {
           end: 10,
           handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
           handleSize: '80%',
+          textStyle: {
+            color: '#415899'
+          },
           handleStyle: {
-            color: '#fff',
+            color: '#415899',
             shadowBlur: 3,
             shadowColor: 'rgba(0, 0, 0, 0.6)',
             shadowOffsetX: 2,
@@ -454,6 +496,9 @@ export default {
         visualMap: {
           top: 1,
           right: 1,
+          textStyle: {
+            color: '#415899'
+          },
           pieces: [{
             gt: 0,
             lte: 25,
@@ -489,12 +534,12 @@ export default {
             }]
           },
           areaStyle: {
-            color: new Echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+            color: new Echarts.graphic.LinearGradient(0, 0, 0, 0.8, [{
               offset: 0,
               color: 'rgb(0, 205, 181)'
             }, {
               offset: 1,
-              color: 'rgb(65, 88, 153)'
+              color: 'rgb(76,98,158)'
             }])
           }
         }
@@ -503,7 +548,10 @@ export default {
     chartOptionsLineHumidity() {
       return {
         title: {
-          text: 'Statistic'
+          text: 'Statistic',
+          textStyle: {
+            color: '#415899'
+          }
         },
         tooltip: {
           trigger: 'axis',
@@ -514,11 +562,17 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
+          axisLabel: {
+            color: '#415899'
+          },
           data: this.$store.getters.getDataChartsTime
         },
         yAxis: {
           type: 'value',
           boundaryGap: [0, '100%'],
+          axisLabel: {
+            color: '#415899'
+          },
           splitLine: {
             show: false
           }
@@ -542,8 +596,11 @@ export default {
           end: 10,
           handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
           handleSize: '80%',
+          textStyle: {
+            color: '#415899'
+          },
           handleStyle: {
-            color: '#fff',
+            color: '#415899',
             shadowBlur: 3,
             shadowColor: 'rgba(0, 0, 0, 0.6)',
             shadowOffsetX: 2,
@@ -553,6 +610,9 @@ export default {
         visualMap: {
           top: 1,
           right: 1,
+          textStyle: {
+            color: '#415899'
+          },
           pieces: [{
             gt: 0,
             lte: 25,
@@ -588,12 +648,12 @@ export default {
             }]
           },
           areaStyle: {
-            color: new Echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+            color: new Echarts.graphic.LinearGradient(0, 0, 0, 0.8, [{
               offset: 0,
               color: 'rgb(0, 205, 181)'
             }, {
               offset: 1,
-              color: 'rgb(65, 88, 153)'
+              color: 'rgb(76,98,158)'
             }])
           }
         }
@@ -607,14 +667,19 @@ export default {
     },
     currentSoilMoisture() {
       return this.$store.getters.getDataCurrentsSoilMoisture
-    },
-    laoding() {
-      return this.$store.getters.loading
     }
   },
-  mounted() {
-    this.socket.on('readSensor', function (response) {
-      this.temper = response.data.temp
+  mounted: function () {
+    this.socket.on('readSensor', (datasensor) => {
+      const status = CircularJSON.parse(datasensor)
+      const temp = CircularJSON.stringify(status.temp)
+      const hum = CircularJSON.stringify(status.humidity)
+      const soil = CircularJSON.stringify(status.soilMoisture)
+      // eslint-disable-next-line
+      console.log('temp: ', temp);
+      this.temperature = temp
+      this.humidity = hum
+      this.soil = soil
     })
     this.$store.dispatch('loadDataCurrentSensor')
     this.$store.dispatch('loadDataChart')
@@ -637,5 +702,12 @@ export default {
 .echarts {
   width: 100%;
   height: 100%;
+}
+.bg-color {
+  background: rgb(65,88,153);
+  background: -moz-linear-gradient(107deg, rgba(65,88,153,1) 0%, rgba(0,205,181,1) 100%);
+  background: -webkit-linear-gradient(107deg, rgba(65,88,153,1) 0%, rgba(0,205,181,1) 100%);
+  background: linear-gradient(107deg, rgba(65,88,153,1) 0%, rgba(0,205,181,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#415899",endColorstr="#00cdb5",GradientType=1);
 }
 </style>
