@@ -148,7 +148,6 @@
 
 <script>
 import io from 'socket.io-client'
-// import jsonString from 'safe-json-stringify'
 import CircularJSON from 'circular-json'
 import Echarts from 'vue-echarts'
 import 'echarts/lib/chart/bar'
@@ -199,7 +198,7 @@ export default {
           axisLabel: {
             color: '#415899'
           },
-          data: this.$store.getters.getDataChartsTime
+          data: this.currentTime
         },
         yAxis: {
           type: 'value',
@@ -325,7 +324,7 @@ export default {
           axisLabel: {
             color: '#415899'
           },
-          data: this.$store.getters.getDataChartsTime
+          data: this.currentTime
         },
         yAxis: {
           type: 'value',
@@ -451,7 +450,7 @@ export default {
           axisLabel: {
             color: '#415899'
           },
-          data: this.$store.getters.getDataChartsTime
+          data: this.currentTime
         },
         yAxis: {
           type: 'value',
@@ -565,7 +564,7 @@ export default {
           axisLabel: {
             color: '#415899'
           },
-          data: this.$store.getters.getDataChartsTime
+          data: this.currentTime
         },
         yAxis: {
           type: 'value',
@@ -667,6 +666,9 @@ export default {
     },
     currentSoilMoisture() {
       return this.$store.getters.getDataCurrentsSoilMoisture
+    },
+    currentTime() {
+      return this.$store.getters.getDataChartsTime
     }
   },
   mounted: function () {

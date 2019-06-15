@@ -98,7 +98,7 @@
               {{ props.item.waterVolume }}
             </td>
             <td class="text-xs-center">
-              {{ props.item.createdAt }}
+              {{ formatDate(props.item.createdAt) }}
             </td>
           </template>
         </v-data-table>
@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   middleware: 'auth',
   data() {
@@ -140,6 +141,11 @@ export default {
   methods: {
     endClick() {
       this.$store.dispatch('loadHistory', this.startDate + '.' + this.endDate)
+    },
+    formatDate(value) {
+      if (value) {
+        return moment(String(value)).format('MMMM Do YYYY, h:mm:ss a')
+      }
     }
   }
 }
