@@ -98,7 +98,7 @@
               {{ props.item.waterVolume }}
             </td>
             <td class="text-xs-center">
-              {{ props.item.time }}
+              {{ props.item.createdAt }}
             </td>
           </template>
         </v-data-table>
@@ -122,7 +122,7 @@ export default {
         { text: 'Soil Moisture (%)', align: 'center', value: 'soilMoisture' },
         { text: 'Air Humidity (%)', align: 'center', value: 'airHumidity' },
         { text: 'Volume (ml)', align: 'center', value: 'volume' },
-        { text: 'CreateAt', align: 'center', value: 'createAt' }
+        { text: 'Date', align: 'center', value: 'createdAt' }
       ]
     }
   },

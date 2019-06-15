@@ -29,7 +29,7 @@
                 Temperature
               </div>
               <div>
-                <span class="display-2 font-weight-black white--text">{{ temperature }}</span>
+                <span class="display-2 font-weight-black white--text">{{ temperature || currentTemp || '—' }}</span>
                 <strong class="white--text">Celcius</strong>
               </div>
             </v-layout>
@@ -57,7 +57,7 @@
                 Soil Moisture
               </div>
               <div>
-                <span class="display-2 font-weight-black white--text">{{ soil }}</span>
+                <span class="display-2 font-weight-black white--text">{{ soil || currentSoilMoisture || '—' }}</span>
                 <strong class="white--text">Percent</strong>
               </div>
             </v-layout>
@@ -85,7 +85,7 @@
                 Air Humidity
               </div>
               <div>
-                <span class="display-2 font-weight-black white--text">{{ humidity }}</span>
+                <span class="display-2 font-weight-black white--text">{{ humidity || currentHumidity || '—' }}</span>
                 <strong class="white--text">Percent</strong>
               </div>
             </v-layout>
@@ -175,7 +175,7 @@ export default {
       humidity: 0,
       soil: 0,
       appInterval: 0,
-      socket: io('http://192.168.43.36:8080')
+      socket: io('http://168.63.232.214:8080')
     }
   },
   computed: {
@@ -683,7 +683,7 @@ export default {
     })
     this.$store.dispatch('loadDataCurrentSensor')
     this.$store.dispatch('loadDataChart')
-    if (this.$store.getters.getDataCurrentsTemp) {
+    if (this.$store.getters.getDataChartsTemp) {
       this.appInterval = setInterval(() => {
         this.$store.dispatch('loadDataCurrentSensor')
         this.$store.dispatch('loadDataChart')
