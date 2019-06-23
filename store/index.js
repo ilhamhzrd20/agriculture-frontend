@@ -143,6 +143,9 @@ const createStore = () => {
       getHistorys(state) {
         return state.loadHistorys
       },
+      getDataCurrentsWater(state) {
+        return state.loadDataCurrents.waterVolume
+      },
       getDataCurrentsTemp(state) {
         return state.loadDataCurrents.temp
       },
@@ -151,6 +154,18 @@ const createStore = () => {
       },
       getDataCurrentsSoilMoisture(state) {
         return state.loadDataCurrents.soilMoisture
+      },
+      getFuzzyTemp(state) {
+        return state.loadDataCurrents.ruleFuzzyTemp
+      },
+      getFuzzyHum(state) {
+        return state.loadDataCurrents.ruleFuzzyHum
+      },
+      getFuzzySoil(state) {
+        return state.loadDataCurrents.ruleFuzzySoil
+      },
+      getFuzzyWater(state) {
+        return state.loadDataCurrents.ruleFuzzyWater
       },
       getDataChartsTemp(state) {
         const array = []

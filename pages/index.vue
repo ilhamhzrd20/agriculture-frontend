@@ -34,6 +34,10 @@
               </div>
             </v-layout>
           </v-card-title>
+          <v-btn icon class="align-self-start white--text" size="20">
+            <v-icon>mdi-information-outline</v-icon>
+          </v-btn>
+          <span class="headline font-weight-black white--text">{{ valueTemp || currentFuzzyTemp || '—' }}</span>
         </v-card>
       </v-flex>
       <v-flex xs12 sm6 md12 lg12 ma-1>
@@ -62,6 +66,10 @@
               </div>
             </v-layout>
           </v-card-title>
+          <v-btn icon class="align-self-start white--text" size="20">
+            <v-icon>mdi-information-outline</v-icon>
+          </v-btn>
+          <span class="headline font-weight-black white--text">{{ valueSoil || currentFuzzySoil || '—' }}</span>
         </v-card>
       </v-flex>
       <v-flex xs12 sm6 md12 lg12 ma-1>
@@ -90,6 +98,42 @@
               </div>
             </v-layout>
           </v-card-title>
+          <v-btn icon class="align-self-start white--text" size="20">
+            <v-icon>mdi-information-outline</v-icon>
+          </v-btn>
+          <span class="headline font-weight-black white--text">{{ valueHum || currentFuzzyHum || '—' }}</span>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 sm6 md12 lg12 ma-1>
+        <v-card
+          class="mx-auto primary"
+          max-width="600"
+        >
+          <v-card-title>
+            <v-icon
+              class="mr-5"
+              size="64"
+              color="secondary"
+            >
+              mdi-water-pump
+            </v-icon>
+            <v-layout
+              column
+              align-start
+            >
+              <div class="caption secondary--text text-uppercase font-weight-black">
+                Water
+              </div>
+              <div>
+                <span class="display-2 font-weight-black white--text">{{ water || currentWater || '—' }}</span>
+                <strong class="white--text">Mili</strong>
+              </div>
+            </v-layout>
+          </v-card-title>
+          <v-btn icon class="align-self-start white--text" size="20">
+            <v-icon>mdi-information-outline</v-icon>
+          </v-btn>
+          <span class="headline font-weight-black white--text">{{ valueWater || currentFuzzyWater || '—' }}</span>
         </v-card>
       </v-flex>
     </v-layout>
@@ -173,6 +217,11 @@ export default {
       temperature: 0,
       humidity: 0,
       soil: 0,
+      water: 0,
+      valueTemp: '',
+      valueHum: '',
+      valueSoil: '',
+      valueWater: '',
       appInterval: 0,
       socket: io('http://168.63.232.214:8080')
     }
@@ -377,27 +426,35 @@ export default {
             lte: 100,
             color: '#096'
           }, {
-            gt: 100,
+            gt: 150,
             lte: 200,
             color: '#ffde33'
           }, {
-            gt: 200,
-            lte: 300,
+            gt: 125,
+            lte: 250,
             color: '#ff9933'
           }, {
-            gt: 300,
-            lte: 400,
+            gt: 187,
+            lte: 312,
+            color: '#FF6D00'
+          }, {
+            gt: 250,
+            lte: 375,
             color: '#cc0033'
+          }, {
+            gt: 350,
+            lte: 450,
+            color: '#660099'
           }, {
             gt: 400,
             lte: 500,
-            color: '#660099'
+            color: '#7e0023'
           }, {
             gt: 500,
-            color: '#7e0023'
+            color: '#999'
           }],
           outOfRange: {
-            color: '#999'
+            color: '#3E2723'
           }
         },
         series: {
@@ -667,6 +724,21 @@ export default {
     currentSoilMoisture() {
       return this.$store.getters.getDataCurrentsSoilMoisture
     },
+    currentWater() {
+      return this.$store.getters.getDataCurrentsWater
+    },
+    currentFuzzyTemp() {
+      return this.$store.getters.getFuzzyTemp
+    },
+    currentFuzzyHum() {
+      return this.$store.getters.getFuzzyHum
+    },
+    currentFuzzySoil() {
+      return this.$store.getters.getFuzzySoil
+    },
+    currentFuzzyWater() {
+      return this.$store.getters.getFuzzyWater
+    },
     currentTime() {
       return this.$store.getters.getDataChartsTime
     }
@@ -677,11 +749,21 @@ export default {
       const temp = CircularJSON.stringify(status.temp)
       const hum = CircularJSON.stringify(status.humidity)
       const soil = CircularJSON.stringify(status.soilMoisture)
+      const water = CircularJSON.stringify(status.waterVolume)
+      const fuzzyTemp = CircularJSON.stringify(status.ruleFuzzyTemp)
+      const fuzzyHum = CircularJSON.stringify(status.ruleFuzzyHum)
+      const fuzzySoil = CircularJSON.stringify(status.ruleFuzzySoil)
+      const fuzzyWater = CircularJSON.stringify(status.ruleFuzzyWater)
       // eslint-disable-next-line
       console.log('temp: ', temp);
       this.temperature = temp
       this.humidity = hum
       this.soil = soil
+      this.water = water
+      this.valueTemp = fuzzyTemp
+      this.valueHum = fuzzyHum
+      this.valueSoil = fuzzySoil
+      this.valueWater = fuzzyWater
     })
     this.$store.dispatch('loadDataCurrentSensor')
     this.$store.dispatch('loadDataChart')
