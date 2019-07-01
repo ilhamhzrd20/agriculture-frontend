@@ -126,7 +126,7 @@
               </div>
               <div>
                 <span class="display-2 font-weight-black white--text">{{ water || currentWater || '—' }}</span>
-                <strong class="white--text">Mili</strong>
+                <strong class="white--text">Mili Liter</strong>
               </div>
             </v-layout>
           </v-card-title>
