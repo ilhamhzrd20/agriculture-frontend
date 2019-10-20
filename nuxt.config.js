@@ -6,7 +6,10 @@ const pkg = require('./package')
 // eslint-disable-next-line nuxt/no-cjs-in-config
 module.exports = {
   mode: 'universal',
-
+  server: {
+    port: 8000, // default: 3000
+    host: '0.0.0.0' // default: localhost
+  },
   /*
   ** Headers of the page
   */
@@ -18,7 +21,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' },
       {
         rel: 'stylesheet',
         href:
@@ -89,6 +92,6 @@ module.exports = {
     }
   },
   env: {
-    webServiceUrl: 'http://168.63.232.214:8080/'
+    webServiceUrl: 'http://52.163.84.103:8080/'
   }
 }

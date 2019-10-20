@@ -5,7 +5,7 @@
       class="bg-color"
       app
     >
-      <span class="white--text">&copy; 2019 Smart Agriculture</span>
+      <span class="white--text">&copy; 2019 Tani Nyiram</span>
     </v-footer>
   </v-container>
 </template>

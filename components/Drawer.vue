@@ -13,7 +13,7 @@
         <v-layout>
           <div class="layout ma-0 align-center column">
             <v-avatar size="96" color="secondary">
-              <img src="../static/logo-sa.png" alt="Smart Agriculture" width="96" height="96">
+              <img src="../static/icon.png" alt="Smart Agriculture" width="96" height="96">
             </v-avatar>
             <div class="flex text-sm-center my-3">
               <div class="subheading white--text">

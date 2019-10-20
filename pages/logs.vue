@@ -4,7 +4,7 @@
       <v-layout class="px-0">
         <v-flex xs12 sm12 md12 lg12>
           <h1 class="subheading secondary--text">
-            History Log
+            Riwayat
           </h1>
         </v-flex>
         <v-flex xs12 sm6 md4>
@@ -24,14 +24,14 @@
                 <v-text-field
                   v-model="startDate"
                   v-on="on"
-                  label="Start Date"
+                  label="Tanggal Mulai"
                   prepend-icon="event"
                 />
               </template>
               <v-date-picker v-model="startDate" scrollable>
                 <v-spacer />
                 <v-btn @click="menu = false" flat color="primary">
-                  Close
+                  Tutup
                 </v-btn>
                 <v-btn @click="endClick" :loading="loading" flat color="primary">
                   OK
@@ -57,14 +57,14 @@
                 <v-text-field
                   v-model="endDate"
                   v-on="on"
-                  label="End Date"
+                  label="Tanggal Berakhir"
                   prepend-icon="event"
                 />
               </template>
               <v-date-picker v-model="endDate" scrollable>
                 <v-spacer />
                 <v-btn @click="menu2 = false" flat color="primary">
-                  Close
+                  Tutup
                 </v-btn>
                 <v-btn @click="endClick" :loading="loading" flat color="primary">
                   OK
@@ -119,11 +119,11 @@ export default {
       menu2: false,
       headers: [
         { text: 'No', align: 'center', value: 'id' },
-        { text: 'Temperature (Celcius)', align: 'center', value: 'temperature' },
-        { text: 'Soil Moisture (%)', align: 'center', value: 'soilMoisture' },
-        { text: 'Air Humidity (%)', align: 'center', value: 'airHumidity' },
-        { text: 'Volume (ml)', align: 'center', value: 'volume' },
-        { text: 'Date', align: 'center', value: 'createdAt' }
+        { text: 'Suhu (Celsius)', align: 'center', value: 'temperature' },
+        { text: 'Kelembaban Tanah (%)', align: 'center', value: 'soilMoisture' },
+        { text: 'Kelembaban Udara (%)', align: 'center', value: 'airHumidity' },
+        { text: 'Volume Air (ml)', align: 'center', value: 'volume' },
+        { text: 'Waktu', align: 'center', value: 'createdAt' }
       ]
     }
   },

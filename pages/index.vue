@@ -26,11 +26,11 @@
               align-start
             >
               <div class="caption secondary--text text-uppercase font-weight-black">
-                Temperature
+                Suhu
               </div>
               <div>
                 <span class="display-2 font-weight-black white--text">{{ temperature || currentTemp || '—' }}</span>
-                <strong class="white--text">Celcius</strong>
+                <strong class="white--text">Celsius</strong>
               </div>
             </v-layout>
           </v-card-title>
@@ -58,11 +58,11 @@
               align-start
             >
               <div class="caption secondary--text text-uppercase font-weight-black">
-                Soil Moisture
+                Kelembaban Tanah
               </div>
               <div>
                 <span class="display-2 font-weight-black white--text">{{ soil || currentSoilMoisture || '—' }}</span>
-                <strong class="white--text">Percent</strong>
+                <strong class="white--text">Persen</strong>
               </div>
             </v-layout>
           </v-card-title>
@@ -90,11 +90,11 @@
               align-start
             >
               <div class="caption secondary--text text-uppercase font-weight-black">
-                Air Humidity
+                Kelembaban Udara
               </div>
               <div>
                 <span class="display-2 font-weight-black white--text">{{ humidity || currentHumidity || '—' }}</span>
-                <strong class="white--text">Percent</strong>
+                <strong class="white--text">Persen</strong>
               </div>
             </v-layout>
           </v-card-title>
@@ -122,7 +122,7 @@
               align-start
             >
               <div class="caption secondary--text text-uppercase font-weight-black">
-                Water
+                Air Yang Keluar
               </div>
               <div>
                 <span class="display-2 font-weight-black white--text">{{ water || currentWater || '—' }}</span>
@@ -141,7 +141,7 @@
     <section class="container-chart ma-1">
       <v-card class="blue-grey lighten-5 pa-3 mb-3">
         <h1 class="secondary--text">
-          Water
+          Air Yang Keluar
         </h1>
         <v-layout class="chart-wrapper">
           <water-chart
@@ -153,7 +153,7 @@
 
       <v-card class="blue-grey lighten-5 pa-3 mb-3">
         <h1 class="secondary--text">
-          Temperature
+          Suhu
         </h1>
         <v-layout class="chart-wrapper">
           <temperature-chart
@@ -165,7 +165,7 @@
 
       <v-card class="blue-grey lighten-5 pa-3 mb-3">
         <h1 class="secondary--text">
-          Soil Moisture
+          Kelembaban Tanah
         </h1>
         <v-layout class="chart-wrapper">
           <soil-chart
@@ -177,7 +177,7 @@
 
       <v-card class="blue-grey lighten-5 pa-3">
         <h1 class="secondary--text">
-          Air Humidity
+          Kelembaban Udara
         </h1>
         <v-layout class="chart-wrapper">
           <humidity-chart
@@ -223,7 +223,7 @@ export default {
       valueSoil: '',
       valueWater: '',
       appInterval: 0,
-      socket: io('http://168.63.232.214:8080')
+      socket: io('http://52.163.84.103:8080/')
     }
   },
   computed: {
